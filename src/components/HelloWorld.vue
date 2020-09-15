@@ -17,7 +17,7 @@
         <label for="female"> normal </label>
         <input v-model="difficulty" type="radio" id="cetin" name="gender" value="cetin">
         <label style="margin-right:10px" for="cetin"> cetin</label>
-    <br>
+    <br><br>
     <button @click="start()" class="submit">GO</button><br> <br>
     <b>Round : </b>{{this.count}} <br>
     <b>Rekor round: </b> {{$cookies.get('rekor') ? $cookies.get('rekor') : '1'}}
@@ -31,7 +31,7 @@
     name: 'HelloWorld',
     data: function () {
       return {
-        array: [],
+        selected: [],
         confirm: [],
         count: 1,
         opacity: 1,
@@ -45,7 +45,7 @@
     },
     methods: {
       append(count) {
-        this.array.push(parseInt(count))
+        this.selected.push(parseInt(count))
       },
       start() {
         var num
@@ -87,12 +87,9 @@
           }
         } else {
           this.count = 1
-          this.array = []
+          this.selected = []
           this.confirm = []
         }
-
-
-
       },
 
       getRandomInt(min, max) {
@@ -106,7 +103,7 @@
       confirmedTest() {
         var bool = true
         for (var i = 0; i < this.count; i++) {
-          if (this.confirm[i] != this.array[i]) {
+          if (this.confirm[i] != this.selected[i]) {
             bool = false
           }
         }
@@ -115,16 +112,16 @@
       },
     },
     watch: {
-      array() {
-        if (this.array.length == this.count) {
+      selected() {
+        if (this.selected.length == this.count) {
           if (this.confirmedTest()) {
             this.count++
-            this.array = []
+            this.selected = []
             this.confirm = []
             this.start()
 
           } else {
-            this.array = []
+            this.selected = []
             this.confirm = []
             if($cookies.get('rekor') && parseInt($cookies.get('rekor')) < this.count){
               Vue.$cookies.set('rekor', this.count)
